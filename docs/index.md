@@ -1,36 +1,27 @@
 ---
 slug: '/'
-sidebar_label: 'Product Name'
+sidebar_label: 'VMWare Connector'
 ---
 
-# Tutorial Intro
+# VMWare Connector
 
-Let's discover **Docusaurus in less than 5 minutes**.
+VMWare Connector Overview
 
-## Getting Started
+The VMWare Connector, Version 21.0, provides connectivity that allows an OpCon job to submit a request to VMWare.
 
-Get started by **creating a new site**.
+### Scope
 
-Or **try Docusaurus immediately** with **[new.docusaurus.io](https://new.docusaurus.io)**.
+This online help provides basic and advanced, conceptual and procedural information for running the VMWare Connector. Information on running the central OpCon components falls outside the scope of this document. For information on OpCon, refer to Getting Started with OpCon in the Concepts online help.
 
-## Generate a new site
+### Audience
 
-Generate a new Docusaurus site using the **classic template**:
+This online help is written for users with a working knowledge of the VMWare web services interface and a basic understanding of automated job scheduling concepts.
 
-```shell
-npx @docusaurus/init@latest init my-website classic
-```
+### Windows File Names
 
-## Start your site
+Some systems will not allow long file names (e.g., C:\Program Files\OpConxps\). To work around this, revert to method 8.3. In this method, the 7th character becomes a tilde followed by a 1 (e.g., C:\Progra~1\OpConxps\).
 
-Run the development server:
+### Documentation Questions or Comments
 
-```shell
-cd my-website
+SMA greatly values any questions, concerns, or comments regarding this online help and its usefulness.
 
-npx docusaurus start
-```
-
-Your site starts at `http://localhost:3000`.
-
-Open `docs/intro.md` and edit some lines: the site **reloads automatically** and display your changes.
