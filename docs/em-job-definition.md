@@ -1,6 +1,4 @@
-# Job Definition
-
-## VMWare Job Definition
+# Enterprise Manager Job Definition
 
 The VMWare Connector includes a job sub-type to assist with the definition of VMWare jobs. When defining a job in the Enterprise Manager or the Job Type steps, make sure you:
 
@@ -11,7 +9,7 @@ For more information, refer to [Adding Jobs](https://help.smatechnologies.com/op
 
 ![](<../static/img/VMWare Job Definition Screen.png>)
 
-### VMWare Sub-Type
+## VMWare Sub-Type
 
 The VMWare sub-type simplifies the job definition process by displaying fields to generate the command line for the different supported VMWare commands.
 
@@ -22,7 +20,7 @@ The VMWare sub-type simplifies the job definition process by displaying fields t
 * Define a specific Domain User if the MSLSAM is running as the Local System. For additional information on running the MSLSAM as the Local System, refer to [Service Configuration Options](https://help.smatechnologies.com/opcon/agents/windows/administration/service-configuration) in the Microsoft Windows LSAM online help.
 * If the User ID does not list the Domain User, register the Domain User in the EM. For information on registering a Domain User in the Enterprise Manager (EM), refer to [Managing Batch Users](https://help.smatechnologies.com/opcon/core/Files/UI/Enterprise-Manager/Managing-Batch-Users) in the Enterprise Manager online help.
 
-### Job Details Tab
+## Job Details Tab
 
 **Connector Location**: Defines where the VMWare Connector software is installed on the target Windows system. The path should be defined within the **VMWarePath** global property in OpCon. For more information, refer to [VMWarePath Global Property Configuration](installation#vmwarepath-global-property-configuration). This is a required field.
 
@@ -36,7 +34,7 @@ If you have the VMWare Connector installed on multiple machines, you will need t
 
 **Operation**: Defines the type of operation to perform: BACKUP, CLONE, DELETE, INFORMATION, POWEROPS, RECONFIGURE, or SNAPSHOT. When the operation is selected, the appropriate tab for the operation will be displayed requesting additional information.
 
-#### BACKUP
+### BACKUP
 
 This section contains the requirements to process an OpCon VMWare BACKUP job which can be used to create an offline backup of a VMWare instance. During the backup process, the VMWare instance will be shutdown, a backup performed and after the backup is complete the VMWare instance will be restarted.
 
@@ -51,7 +49,7 @@ The BACKUP Operation contains the following fields:
 * **Parameters**: Defines parameters that the backup software or script require.
 * **Return Code**: Defines the return code that the backup software uses to indicate that the backup finished OK.
 
-**CLONE**
+### CLONE
 
 This section contains the requirements to process an OpCon VMWare CLONE job that is used to perform a clone action to create a virtual machine from an existing VMWare machine or a clone. When creating a machine from an existing machine, the existing machine must be in a powered-off state.
 
@@ -75,7 +73,7 @@ When using the CLONE Operation, a valid value must be specified in the Datacente
 
 :::
 
-#### DELETE
+### DELETE
 
 This section contains the requirements to process an OpCon VMWare DELETE job that is used to delete a virtual machine from the VMWare environment. Please note that once the delete command has been processed, the virtual machine is not recoverable as the virtual machine storage will have been removed from the datastore. This function requires the VMWARE_DELETE_VIRTUAL_MACHINE_ENABLED configuration value to be set to True.
 
@@ -87,7 +85,7 @@ The DELETE Operation contains the following fields:
 
 * **Virtual Machine Name**: Defines the name of the virtual machine to delete.
 
-#### INFORMATION
+### INFORMATION
 
 This section contains the requirements to process an OpCon VMWare INFORMATION job that can be used to produce a report from the VMWare environment.
 
@@ -108,7 +106,7 @@ The INFORMATION Operation contains the following fields:
         * Hosts, which include virtual machines associated with the host including operating system, status (if a powered-off date), and VMWare tools status
     * **Powered Off Days**: Used with the GETPOWEREDOFFLIST information and defines how many days the virtual machine must be powered off before it will appear in the report.
 
-#### POWEROPS
+### POWEROPS
 
 This section contains the requirements to process an OpCon VMWare POWEROPS job that is used to perform an action on the VMWare server or guest operating system.
 
@@ -125,7 +123,7 @@ The POWERUPS Operation contains the following fields:
     * To update the name of a virtual machine, select the name in the Virtual Machines list, modify the name and select the Update button.
     * To remove a virtual machine from list, select the name in the virtual machines list and select the Remove button.
 
-#### RECONFIGURE
+### RECONFIGURE
 
 This section contains the requirements to process an OpCon VMWare RECONFIGURE job that is used to perform a reconfiguration action on the virtual machine. The RECONFIGURE job can be used to increase or decrease either the number of CPU's or the size of the memory of virtual machine.
  
@@ -143,7 +141,7 @@ The RECONFIGURE Operation contains the following fields:
 * **Required Memory Size (MB)**: Defines the memory size to set in the configuration. The memory size is defined in MB (e.g., 4096, 8192, etc.).
 * **Restart Server**: If the virtual machine operating system does not support dynamic configuration, selecting this option will result in the operating system being shut down, the configuration update being performed, and the virtual machine being restarted.
 
-#### SNAPSHOT
+### SNAPSHOT
 
 This section contains the requirements to process an OpCon VMWare SNAPSHOT job that is used to perform a snapshot action on the virtual machine.
 
