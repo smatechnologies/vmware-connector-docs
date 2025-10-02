@@ -4,6 +4,7 @@ module.exports = {
     'release notes',
     'installation',
     'configuration',
-    'job-definition',
+    'em-job-definition',
+    'sm-job-definition',
   ],
 };

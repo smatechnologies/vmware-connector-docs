@@ -9,6 +9,8 @@ VMWare Connector Overview
 
 The VMWare Connector, Version 21.0, provides connectivity that allows an OpCon job to submit a request to VMWare.
 
+The job definitions are entered either as Windows jobs using the VMware job sub-type or Solution Manager using the VMWare job type. When the job is scheduled by OpCon, the definitions are passed as arguments to the VMWare Connector.
+
 ### Scope
 
 This online help provides basic and advanced, conceptual and procedural information for running the VMWare Connector. Information on running the central OpCon components falls outside the scope of this document. For information on OpCon, refer to Getting Started with OpCon in the Concepts online help.

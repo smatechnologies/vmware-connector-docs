@@ -73,12 +73,10 @@ C:\Program Files\OpConxps\VMWare x64
 
 7. Click **Save** on the **Global Properties** toolbar.
 
-### Sub-Type Installation
+### Enterprise Manager Sub-Type Installation
 
 If you need to update the Enterprise Manager with a screen to define the VMWare jobs, you will need to install the VMWare Job Sub-Type. Follow the procedure in this section to install the plug-in package.
  
-#### VMWare Sub-Type Installation
-
 1. Log in to the machine where the Enterprise Manager is installed.
 2. Navigate to the **EnterpriseManager** folder in Windows Explorer.
 
@@ -121,9 +119,69 @@ C:\Program Files\OpConxps\EnterpriseManager x64\dropins\com.sma.ui.core.jobdetai
 11. Select **Windows** in the **Job Type** drop-down list.
 12. Select **VMWare** in the **Job Sub-Type** drop-down list to confirm that the sub-type is installed.
  
-After the installation is complete, the installed directory contains the connector executable, a single jar file containing the required libraries, and an **Agent.config** file.
+After the installation is complete, the installed directory contains the connector executable, a single jar file containing the required libraries, and an **Connector.config** file.
  
 ![](../static/img/VMWareGlobalPropertyPath1.png)
+
+### Solution Manager sub-type installation
+
+It should be noted that all interactions with the Solution Manager sub-type can only be completed using Solution Manager.
+
+Download the ACSVMWare zip file from the ftp site under OpCon Releases\Integrations\VMWARE.
+
+Extract the ACSVMWare directory and copy this into the \SAM\plugins for OpCon and relay installations.
+
+For OpCon installations stop and restart the SMA OpCon RestAPI and SMA OpCon Service Manager services, for Relay stop and restart the Relay Service.
+Create the scripts
+
+When using the Solution Manager sub-type, two scripts must be created. The first script contains the Connector.config information and the second script contains the drop-down list information.
+
+Using Solution Manager
+
+    Select Library.
+    Select Scripts.
+    Select Script Types from the upper right hand corner.
+        Select +Add
+        In the Name field enter ACSVMWare.
+        In the File Extension field enter txt.
+        In the Description field enter Used for ACSVMWare Integration.
+        Select Save.
+    Select Script Runners from the upper right hand corner.
+        Select +Add
+        In the Name field enter ACSVMWare.
+        In the OS field select VMWare from the drop-down list.
+        In the Type field select ACSVMWare from the drop-down list.
+        In the Command field enter cmd.exe /c.
+        Select Save.
+    Select Scripts from the upper right hand corner.
+        Create the Connector.config script.
+        Select +Add.
+        In the Name field enter a name for the script. It is suggested using the proposed agent name and append _config to the name.
+        In the Type field select ACSVMWare from the drop-down list.
+        Assign the required roles.
+        In the Script paste the contents of the created Connector.config file.
+        Select Save.
+
+Create VMWare Agent Definition
+
+Using Solution Manager
+
+    Select Library.
+
+    Select Agents.
+        Select +Add
+        In the Name field enter the name of the agent.
+        Select VMWare from the Type drop-down list.
+        In the VMWare Settings section enter the required information.
+        In the Client Information section
+            In the Directory field enter the installation directory of the VMWare Connector.
+            In the Name field insert vmware.exe (default value).
+            In the Config File Name field insert Connector.config (default value).
+        In the Config Script section
+            Select ACSVMWare from the Script Runner drop-down list.
+            Select the config script you previously created from the Script drop-down list.
+
+    Select Save.
 
 ## Upgrade Installation
 
