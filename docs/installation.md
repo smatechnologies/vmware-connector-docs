@@ -172,6 +172,8 @@ Using Solution Manager
         Select +Add
         In the Name field enter the name of the agent.
         Select VMWare from the Type drop-down list.
+        Select General Settings
+            In the NetCom field enter <Default> or a Netcom or Relay name.
         In the VMWare Settings section enter the required information.
         In the Client Information section
             In the Directory field enter the installation directory of the VMWare Connector.
@@ -180,8 +182,10 @@ Using Solution Manager
         In the Config Script section
             Select ACSVMWare from the Script Runner drop-down list.
             Select the config script you previously created from the Script drop-down list.
-
     Select Save.
+    Now select Communication Settings
+        Ensure that the Requires XML Escape Sequences: User-Defined field is set to True. 
+    If not change the field and save the definition changes.
 
 ## Upgrade Installation
 
