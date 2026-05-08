@@ -18,6 +18,11 @@ module.exports = {
         href: 'https://help.smatechnologies.com',
       },
     },
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      },
+    },
     footer: {
       style: 'dark',
       copyright: `Copyright © ${new Date().getFullYear()} SMA Technologies.`,
@@ -28,7 +33,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          breadcrumbs: false,
+          breadcrumbs: true,
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
@@ -37,14 +42,20 @@ module.exports = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+        gtag: {
+          trackingID: 'G-7XYMFXX81Y',
+        },
       },
     ],
   ],
   plugins: [
     [
-      require.resolve('@cmfcmf/docusaurus-search-local'), 
+      require.resolve('@easyops-cn/docusaurus-search-local'),
       {
-      }
+        hashed: true,
+        indexDocs: true,
+        indexBlog: false,
+      },
     ],
   ],
 };

@@ -1,29 +1,49 @@
 ---
 slug: '/'
 sidebar_label: 'VMWare Connector'
+hide_table_of_contents: true
+displayed_sidebar: null
 ---
 
 # VMWare Connector
 
-VMWare Connector Overview
+The VMWare Connector is an OpCon connector that submits job requests to VMWare web services from an OpCon schedule.
 
-The VMWare Connector, Version 21.0, provides connectivity that allows an OpCon job to submit a request to VMWare.
+<div style={{display: 'flex', gap: '0.75rem', alignItems: 'flex-start', flexWrap: 'wrap', marginTop: '1rem'}}>
 
-The job definitions are entered either as Windows jobs using the VMware job sub-type or Solution Manager using the VMWare job type. When the job is scheduled by OpCon, the definitions are passed as arguments to the VMWare Connector.
+<div style={{flex: '1', minWidth: '160px', display: 'flex', flexDirection: 'column', gap: '0.6rem'}}>
 
-### Scope
+<div style={{background: 'var(--ifm-card-background-color)', border: '1px solid var(--ifm-color-emphasis-400)', borderRadius: '10px', padding: '0.75rem 1rem'}}>
 
-This online help provides basic and advanced, conceptual and procedural information for running the VMWare Connector. Information on running the central OpCon components falls outside the scope of this document. For information on OpCon, refer to Getting Started with OpCon in the Concepts online help.
+### Overview
 
-### Audience
+- [Overview](./overview.md)
+- [Release notes](./release-notes.md)
 
-This online help is written for users with a working knowledge of the VMWare web services interface and a basic understanding of automated job scheduling concepts.
+</div>
 
-### Windows File Names
+<div style={{background: 'var(--ifm-card-background-color)', border: '1px solid var(--ifm-color-emphasis-400)', borderRadius: '10px', padding: '0.75rem 1rem'}}>
 
-Some systems will not allow long file names (e.g., C:\Program Files\OpConxps\). To work around this, revert to method 8.3. In this method, the 7th character becomes a tilde followed by a 1 (e.g., C:\Progra~1\OpConxps\).
+### Installation
 
-### Documentation Questions or Comments
+- [Installation](./installation.md)
+- [Configuration](./configuration.md)
 
-SMA greatly values any questions, concerns, or comments regarding this online help and its usefulness.
+</div>
 
+</div>
+
+<div style={{flex: '1', minWidth: '160px', display: 'flex', flexDirection: 'column', gap: '0.6rem'}}>
+
+<div style={{background: 'var(--ifm-card-background-color)', border: '1px solid var(--ifm-color-emphasis-400)', borderRadius: '10px', padding: '0.75rem 1rem'}}>
+
+### Job definition
+
+- [Enterprise Manager job definition](./em-job-definition.md)
+- [Solution Manager job definition](./sm-job-definition.md)
+
+</div>
+
+</div>
+
+</div>

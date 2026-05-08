@@ -1,196 +1,294 @@
-# Installation
+---
+sidebar_label: 'Installation'
+title: VMWare Connector installation
+description: "Install, configure, and upgrade the VMWare Connector for use with Enterprise Manager and Solution Manager."
+tags:
+  - Procedural
+  - System Administrator
+  - Installation
+---
 
-VMWare Connector Installation
+# VMWare Connector installation
+
+## What is it?
+
+This page walks you through installing the VMWare Connector and registering it with either Enterprise Manager or Solution Manager. After you finish the steps on this page, OpCon jobs can run VMWare operations such as backup, clone, power operations, reconfiguration, and snapshots. For the full list of supported operations, refer to [Installation overview](installation-overview.md#supported-operations).
+
+## At a glance
+
+| Step | What you do | Where |
+|---|---|---|
+| 1 | Confirm system requirements | This page |
+| 2 | Install the connector | This page |
+| 3 | Set up the connector in **either** Enterprise Manager **or** Solution Manager | This page |
+| 4 | Update connector settings | [Configuration](configuration.md) |
+| 5 | Define your first VMWare job | [Enterprise Manager job definition](em-job-definition.md) or [Solution Manager job definition](sm-job-definition.md) |
 
 ## Requirements
 
-Before beginning the installation, ensure that the system requirements are met. The supported software include:
+Before you begin, ensure that the target machine meets the following requirements:
 
-* Any supported version of Windows with .NET Framework 4.5 installed.
-* Java version 8.
-* A supported version of the MSLSAM installed on the machine.
+- A supported version of Windows with .NET Framework 4.5 installed.
+- Java version 8.
+- A supported version of the Windows Agent (MSLSAM) installed on the machine.
 
-:::info Note 
-
-The SMA VMWare connector will need to have the address of the host supporting VMWare web services in the configuration file.
-
+:::note
+The VMWare Connector must have the address of the host supporting VMWare web services in the configuration file. You set this address after installation, in [Configuration](configuration.md).
 :::
 
-The OpCon VMWare Connector incorporates VMWare Jobs into the OpCon environment communicates with VMWare web services provided by Center and ESXi 5.5 to provide the following capabilities:
-
-| Name | Description |
-| ---- | ----------- |
-| BackUp | Backup VMWare machine instances. |
-| Clone | Create a virtual machine. |
-| Information | Retrieve information from the VMWare environment. |
-| PowerOps | PowerOn / PowerOff VMWare instances, Reboot / Shutdown / Restart / Suspend guest operating systems. |
-| Reconfigure | Change VMWare configurations by changing the number of CPU's or memory size. |
-| SnapShot | Take a snapshot, delete a snapshot and revert to a snapshot. |
- 
-For these operations to function effectively on the virtual machine, VMWare Tools must be installed on the virtual machine.
- 
-For Reconfigure changes (CPU & memory), the options must enabled for the virtual machine (VMWare Settings, Options, Memory/CPU hotplug). It should be noted that these options will only be allowed by VMWare if the target operating system supports these capabilities.
- 
-:::info Note 
-
-The Oracle JRE prerequisite has been removed from the installation package for this product. You must have a functional Java Runtime Environment installed prior to installation for this product to work.
-
+:::note
+The Oracle JRE prerequisite has been removed from the installation package. You must have a functional Java Runtime Environment (Java 8) installed before you install the connector.
 :::
 
-## New Installation
+## New installation
 
-To install a new VMWare Connector, complete the procedures in this section.
+A new installation has two phases:
 
-### Connector Installation
+1. **Install the connector** on the target Windows machine. This step is the same for everyone.
+2. **Set up the connector in OpCon** using either of the following paths. These paths are alternatives — choose the one that matches how you define jobs:
+   - [Enterprise Manager path](#enterprise-manager-path) — for sites that define jobs in Enterprise Manager.
+   - [Solution Manager path](#solution-manager-path) — for sites running OpCon 25.0.3 or greater that define jobs in Solution Manager.
+
+### Install the connector
+
+To install the connector, complete the following steps:
 
 1. Log in to the machine as a Local Administrator.
-2. Download the files from the [https://files.smatechnologies.com](https://files.smatechnologies.com) site.
-3. Enter your valid username and password and click **Login**.
-4. Navigate to **Root Folder/Connectors and Add-ons/Connectors/VMWare**.
-5. Double-click the **SMA OpCon VMWare Connector Install.exe**. The **Select Language** screen displays.
-6. Select the **desired language** for the installation screens and click **OK**. The **Welcome** screen displays.
-7. Click **Next**.
-**In the remaining wizard screens**:
-8. Complete the wizard.
-**In the last** wizard screen**:
-9. Click **Done**.
+2. Go to [https://files.smatechnologies.com](https://files.smatechnologies.com) to download the files.
+3. Enter your username and password and select the **Login** button.
+4. Go to **Root Folder > Connectors and Add-ons > Connectors > VMWare**.
+5. Open the **SMA OpCon VMWare Connector Install.exe** file. The Select Language screen is displayed.
+6. Select the language for the installation screens and select the **OK** button. The Welcome screen is displayed.
+7. Select the **Next** button.
+8. Complete the remaining wizard screens.
+9. On the last wizard screen, select the **Done** button. The connector is installed.
 
-### VMWarePath Global Property Configuration
+After the installation completes, the installation directory contains:
 
-1. Log in to the Enterprise Manager on the Windows machine where an Enterprise Manager is installed.
-2. Double-click on **Global Properties** under the **Administration** topic in the **Navigation Panel**. The **Global Properties** screen displays.
-3. Click **Add** on the **Global Properties** toolbar.
-4. Enter _VMWarePath_ in the **Name** text box.
-5. Enter the documentation in the **Documentation** text box.
-**In the Value text box:**
-6. Enter the path to the _SMAVMWare.exe on the Windows machine_. **Do not** include the trailing backslash in the path.
+- The connector executable.
+- A single jar file containing the required libraries.
+- A `Connector.config` file (which you update in [Configuration](configuration.md)).
 
-:::tip Example
+## Enterprise Manager path
 
-C:\Program Files\OpConxps\VMWare x64
+Use this path if you define VMWare jobs in Enterprise Manager. It involves two procedures:
 
+1. [Configure the VMWarePath global property](#configure-the-vmwarepath-global-property) — tells OpCon where the connector is installed.
+2. [Install the Enterprise Manager sub-type](#install-the-enterprise-manager-sub-type) — adds the VMWare job sub-type to Enterprise Manager.
+
+### Configure the VMWarePath global property
+
+The **VMWarePath** global property tells Enterprise Manager where the VMWare Connector is installed.
+
+:::note
+If you have the VMWare Connector installed on multiple machines, define a unique global property for each connector.
 :::
 
-7. Click **Save** on the **Global Properties** toolbar.
+To configure the VMWarePath global property in Enterprise Manager, complete the following steps:
 
-### Enterprise Manager Sub-Type Installation
+1. Log in to Enterprise Manager on the Windows machine where Enterprise Manager is installed.
+2. In the Navigation Panel, under the **Administration** topic, open **Global Properties**. The Global Properties screen is displayed.
+3. Select the **Add** button on the Global Properties toolbar.
+4. In the **Name** field, enter `VMWarePath`.
+5. In the **Documentation** field, enter the documentation for the property.
+6. In the **Value** field, enter the path to `SMAVMWare.exe` on the Windows machine. Do not include the trailing backslash in the path.
 
-If you need to update the Enterprise Manager with a screen to define the VMWare jobs, you will need to install the VMWare Job Sub-Type. Follow the procedure in this section to install the plug-in package.
- 
-1. Log in to the machine where the Enterprise Manager is installed.
-2. Navigate to the **EnterpriseManager** folder in Windows Explorer.
+   :::tip Example
+   `C:\Program Files\OpConxps\VMWare x64`
+   :::
 
-:::tip Example 
+7. Select the **Save** button on the Global Properties toolbar. The global property is saved.
 
-C:\Program Files\OpConxps\EnterpriseManager x64
+### Install the Enterprise Manager sub-type
 
-:::
+The Enterprise Manager sub-type is a plug-in package that adds a VMWare job definition screen to Enterprise Manager. Install it on every Enterprise Manager machine where you define VMWare jobs.
 
-3. Confirm the **dropins** folder exists. If the folder does not exist, right-click in the **EnterpriseManager** folder, select **New > Folder**, and name the folder **dropins**.
-4. Navigate to the location where you installed the VMWare Connector.
+To install the Enterprise Manager sub-type, complete the following steps:
 
-:::tip Example 
+1. Log in to the machine where Enterprise Manager is installed.
+2. In Windows Explorer, go to the **EnterpriseManager** folder.
 
-C:\Program Files\OpConxps\VMWare x64
+   :::tip Example
+   `C:\Program Files\OpConxps\EnterpriseManager x64`
+   :::
 
-:::
+3. Confirm that the **dropins** folder exists. If it does not exist, right-click in the **EnterpriseManager** folder, select **New > Folder**, and name the folder `dropins`.
+4. Go to the location where you installed the VMWare Connector.
+
+   :::tip Example
+   `C:\Program Files\OpConxps\VMWare x64`
+   :::
 
 5. Open the **EMPlugins** folder and copy the jar file.
-	
-:::tip Example 
 
-com.sma.ui.core.jobdetails.vmware_1.0.0.yyyymmddhhss.jar
+   :::tip Example
+   `com.sma.ui.core.jobdetails.vmware_1.0.0.yyyymmddhhss.jar`
+   :::
 
+6. Paste the jar file into the **EnterpriseManager\dropins** folder on the Enterprise Manager machine.
+
+   :::tip Example
+   `C:\Program Files\OpConxps\EnterpriseManager x64\dropins\com.sma.ui.core.jobdetails.vmware_1.0.0.yyyymmddhhss.jar`
+   :::
+
+To verify that the sub-type is installed, complete the following steps:
+
+1. Log in to Enterprise Manager.
+2. In the Navigation Panel, under the **Administration** topic, open **Job Master**. The Job Master screen is displayed.
+3. In the **Schedule** list, select a schedule.
+4. Select the **Add** button on the Job Master toolbar.
+5. Under **Job Properties** in the **Job Details** frame, in the **Job Type** list, select **Windows**.
+6. In the **Job Sub-Type** list, confirm that **VMWare** is available, and select it.
+
+![](<../static/img/VMWareGlobalPropertyPath1.png>)
+
+**Next:** Update connector settings in [Configuration](configuration.md), then define your first job in [Enterprise Manager job definition](em-job-definition.md).
+
+## Solution Manager path
+
+Use this path if you define VMWare jobs in Solution Manager. It is available with OpCon 25.0.3 or greater through the ACS framework.
+
+The Solution Manager path involves four procedures, in this order:
+
+1. [Install the Solution Manager sub-type](#install-the-solution-manager-sub-type) — copies the ACS plug-in into your OpCon and Relay installations.
+2. [Create the script type and runner](#create-the-script-type-and-runner) — registers the ACSVMWare script type and a script runner in Solution Manager.
+3. [Create the Connector.config script](#create-the-connectorconfig-script) — stores your connector configuration centrally in OpCon.
+4. [Create the VMWare agent definition](#create-the-vmware-agent-definition) — creates the agent that ties the configuration script to the connector.
+
+:::note
+All interactions with the Solution Manager sub-type are completed in Solution Manager.
 :::
 
-6. Paste the jar file to the **EnterpriseManager\dropins** folder on the Enterprise Manager machine.
+### Install the Solution Manager sub-type
 
-:::tip Example 
+To install the Solution Manager sub-type, complete the following steps:
 
-C:\Program Files\OpConxps\EnterpriseManager x64\dropins\com.sma.ui.core.jobdetails.vmware_1.0.0.yyyymmddhhss.jar
+1. Download the `ACSVMWare` zip file from the FTP site under **OpCon Releases > Integrations > VMWARE**.
+2. Extract the `ACSVMWare` directory and copy it into the `\SAM\plugins` directory for the OpCon and Relay installations.
+3. Restart the affected services:
 
+   | Installation | Action |
+   |---|---|
+   | OpCon | Stop and restart the SMA OpCon RestAPI and SMA OpCon Service Manager services. |
+   | Relay | Stop and restart the Relay Service. |
+
+### Create the script type and runner
+
+When you use the Solution Manager sub-type, you must register an `ACSVMWare` script type and a matching script runner. These let Solution Manager identify and execute the connector configuration script.
+
+#### Create the script type
+
+To create the script type, complete the following steps:
+
+1. In Solution Manager, select **Library**.
+2. Select **Scripts**.
+3. In the upper-right corner, select **Script Types**.
+4. Select the **+Add** button.
+5. In the **Name** field, enter `ACSVMWare`.
+6. In the **File Extension** field, enter `txt`.
+7. In the **Description** field, enter `Used for ACSVMWare Integration`.
+8. Select the **Save** button. The script type is saved.
+
+#### Create the script runner
+
+To create the script runner, complete the following steps:
+
+1. In Solution Manager, select **Library**.
+2. Select **Scripts**.
+3. In the upper-right corner, select **Script Runners**.
+4. Select the **+Add** button.
+5. In the **Name** field, enter `ACSVMWare`.
+6. In the **OS** field, select **VMWare** from the list.
+7. In the **Type** field, select **ACSVMWare** from the list.
+8. In the **Command** field, enter `cmd.exe /c`.
+9. Select the **Save** button. The script runner is saved.
+
+### Create the Connector.config script
+
+The `Connector.config` script holds the connector configuration centrally in OpCon, so you do not need to maintain a per-machine file.
+
+:::note
+Before you create the script, prepare the contents of your `Connector.config` file. For the field reference, refer to [Configuration](configuration.md).
 :::
 
-7. Log in to the Enterprise Manager on the Windows machine where an Enterprise Manager is installed.
-8. Double-click on **Job Master** under the **Administration** topic in the **Navigation Panel**. The **Job Master** screen displays.
-9. Select a **schedule** in the **Schedule** drop-down list.
-10. Click **Add** on the **Job Master** toolbar.
-**Under Job Properties in the Job Details frame:**
-11. Select **Windows** in the **Job Type** drop-down list.
-12. Select **VMWare** in the **Job Sub-Type** drop-down list to confirm that the sub-type is installed.
- 
-After the installation is complete, the installed directory contains the connector executable, a single jar file containing the required libraries, and an **Connector.config** file.
- 
-![](../static/img/VMWareGlobalPropertyPath1.png)
+To create the `Connector.config` script, complete the following steps:
 
-### Solution Manager sub-type installation
+1. In Solution Manager, select **Library**.
+2. Select **Scripts**.
+3. In the upper-right corner, select **Scripts**.
+4. Select the **+Add** button.
+5. In the **Name** field, enter a name for the script. Continuous suggests using the proposed agent name with `_config` appended.
+6. In the **Type** field, select **ACSVMWare** from the list.
+7. Assign the required roles.
+8. In the **Script** field, paste the contents of the `Connector.config` file you prepared.
+9. Select the **Save** button. The script is saved.
 
-It should be noted that all interactions with the Solution Manager sub-type can only be completed using Solution Manager.
+### Create the VMWare agent definition
 
-Download the ACSVMWare zip file from the ftp site under OpCon Releases\Integrations\VMWARE.
+The agent definition ties together the connector, the configuration script, and the VMWare host that the connector talks to.
 
-Extract the ACSVMWare directory and copy this into the \SAM\plugins for OpCon and relay installations.
+To create the VMWare agent definition in Solution Manager, complete the following steps:
 
-For OpCon installations stop and restart the SMA OpCon RestAPI and SMA OpCon Service Manager services, for Relay stop and restart the Relay Service.
-Create the scripts
+1. In Solution Manager, select **Library**.
+2. Select **Agents**.
+3. Select the **+Add** button.
+4. In the **Name** field, enter the name of the agent.
+5. In the **Type** field, select **VMWare** from the list.
+6. Configure the General Settings:
+   1. Select **General Settings**.
+   2. In the **NetCom** field, enter `<Default>` or a NetCom or Relay name.
+7. In the **VMWare Settings** section, enter the required information.
+8. In the **Client Information** section, complete the following fields:
+   1. In the **Directory** field, enter the installation directory of the VMWare Connector.
+   2. In the **Name** field, enter `vmware.exe` (the default value).
+   3. In the **Config File Name** field, enter `Connector.config` (the default value).
+9. In the **Config Script** section, complete the following fields:
+   1. In the **Script Runner** field, select **ACSVMWare** from the list.
+   2. In the **Script** field, select the configuration script you previously created from the list.
+10. Select the **Save** button. The agent is saved.
+11. Select **Communication Settings** and verify that the **Requires XML Escape Sequences: User-Defined** field is set to `True`. If it is not, change the field and save the definition.
 
-When using the Solution Manager sub-type, two scripts must be created. The first script contains the Connector.config information and the second script contains the drop-down list information.
+**Next:** Define your first job in [Solution Manager job definition](sm-job-definition.md).
 
-Using Solution Manager
+## Upgrade installation
 
-    Select Library.
-    Select Scripts.
-    Select Script Types from the upper right hand corner.
-        Select +Add
-        In the Name field enter ACSVMWare.
-        In the File Extension field enter txt.
-        In the Description field enter Used for ACSVMWare Integration.
-        Select Save.
-    Select Script Runners from the upper right hand corner.
-        Select +Add
-        In the Name field enter ACSVMWare.
-        In the OS field select VMWare from the drop-down list.
-        In the Type field select ACSVMWare from the drop-down list.
-        In the Command field enter cmd.exe /c.
-        Select Save.
-    Select Scripts from the upper right hand corner.
-        Create the Connector.config script.
-        Select +Add.
-        In the Name field enter a name for the script. It is suggested using the proposed agent name and append _config to the name.
-        In the Type field select ACSVMWare from the drop-down list.
-        Assign the required roles.
-        In the Script paste the contents of the created Connector.config file.
-        Select Save.
+To upgrade the VMWare Connector, install the new package to the same directory as the previous installation. The installation package preserves your configuration files automatically. For installation steps, refer to [New installation](#new-installation).
 
-Create VMWare Agent Definition
+## Silent mode
 
-Using Solution Manager
+To install the VMWare Connector in silent mode, refer to the [Silent Mode](https://help.smatechnologies.com/opcon/core/installation/components#silent-mode-install) section in the **OpCon Installation** online help.
 
-    Select Library.
+## FAQs
 
-    Select Agents.
-        Select +Add
-        In the Name field enter the name of the agent.
-        Select VMWare from the Type drop-down list.
-        Select General Settings
-            In the NetCom field enter <Default> or a Netcom or Relay name.
-        In the VMWare Settings section enter the required information.
-        In the Client Information section
-            In the Directory field enter the installation directory of the VMWare Connector.
-            In the Name field insert vmware.exe (default value).
-            In the Config File Name field insert Connector.config (default value).
-        In the Config Script section
-            Select ACSVMWare from the Script Runner drop-down list.
-            Select the config script you previously created from the Script drop-down list.
-    Select Save.
-    Now select Communication Settings
-        Ensure that the Requires XML Escape Sequences: User-Defined field is set to True. 
-    If not change the field and save the definition changes.
+**Do I need to install Java separately?**
 
-## Upgrade Installation
+Yes. The Oracle JRE prerequisite has been removed from the installation package, so you must install a functional Java Runtime Environment (Java 8) before you install the connector.
 
-To upgrade the VMWare Connector, simply install the new package to the same directory as the previous installation. The installation package will preserve your configuration files automatically. For installation instructions, refer to [New Installation](installation#new-installation).
+**What's in the installation directory after install?**
 
-## Silent Mode
+The connector executable, a single jar file with the required libraries, and a `Connector.config` file.
 
-To learn how to install the VMWare Connector in silent mode, refer to the [Silent Mode](https://help.smatechnologies.com/opcon/core/installation/components#silent-mode-install) section in the **OpCon Installation** online help.
+**Do I need to set up both the Enterprise Manager sub-type and the Solution Manager sub-type?**
+
+No. The two sub-types are alternative paths. Set up the one that matches how your team defines jobs. If you define jobs in Enterprise Manager, follow the [Enterprise Manager path](#enterprise-manager-path). If you define jobs in Solution Manager and you run OpCon 25.0.3 or greater, follow the [Solution Manager path](#solution-manager-path).
+
+**Will an upgrade overwrite my configuration?**
+
+No. When you install the new package to the same directory as the previous installation, the installation package preserves your configuration files automatically.
+
+**Why does my Windows path get rejected?**
+
+Some systems do not allow long file names. Use the 8.3 file name format (for example, `C:\Progra~1\OpConxps\`) instead of the long path.
+
+## Glossary
+
+| Term | Definition |
+|---|---|
+| VMWare Connector | An OpCon connector that submits job requests to VMWare web services from an OpCon schedule. |
+| Windows Agent (MSLSAM) | The OpCon agent installed on a Windows machine. The connector requires a supported Windows Agent on the host machine. |
+| Connector.config | The VMWare Connector configuration file delivered with the connector installation. |
+| ACS | The framework included in OpCon 25.0.3 or greater that provides the sub-type mechanism supporting the VMWare Connector in Solution Manager. |
+| vCenter | The VMWare server providing the VMWare web services interface. The connector supports vCenter or ESXi 5.5. |
+| ESXi | The VMWare hypervisor providing the VMWare web services interface. The connector supports vCenter or ESXi 5.5. |
+| Enterprise Manager | The legacy Windows desktop client for OpCon. Hosts the VMWare job sub-type plug-in. |
+| Solution Manager | The browser-based interface for OpCon. Hosts the VMWare job type through the ACS framework. |
