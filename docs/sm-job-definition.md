@@ -132,10 +132,11 @@ The POWEROPS operation contains the following fields:
 
 - **Datacenter Name**: Defines the name of the vSphere Datacenter when using the CLONE operation.
 - **PowerOps Tasks**: Defines the type of POWEROPS task to perform: POWEROFF, POWERON, REBOOT, RESET, SHUTDOWN, STANDBY, or SUSPEND.
-- **Virtual Machine Name**: Defines the name of a virtual machine in the target host system to perform the operation on. **Virtual Machine Name** is mutually exclusive with **Virtual Machine Group**.
-- **Virtual Machine Group**: Defines a list of virtual machines in the target host to perform the operation on.
+- Virtual Machine drop down list
+  - **VM Name**: Select VM Name to enter a single virtual machine in the VM Name field to perform the operation on.
+  - **VM Group Names**: Select VM Group Nmaes to insert a group of virtual machines tp perform the operation on. 
     - To add a virtual machine to the list, select the **+ AddItem** button and enter the name of the virtual machine.
-    - To update the name of a virtual machine, update the name in the **Virtual Machine** list.
+    - To update the name of a virtual machine, update the name in the **VM Group Names** list.
     - To remove a virtual machine from the list, select the **-** button to the right of the field.
 
 ### RECONFIGURE
