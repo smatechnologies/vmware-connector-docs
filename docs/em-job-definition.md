@@ -17,7 +17,7 @@ The VMWare Connector adds a **VMWare** Windows job sub-type to Enterprise Manage
 
 This page is the field-by-field reference for that screen.
 
-**Who this is for:** Automation Engineers defining VMWare jobs in the Enterprise Manager desktop client.
+**Who this is for:** Automation Engineers defining VMWare jobs in the Enterprise Manager desktop interface.
 
 :::note Using Solution Manager instead?
 If your team defines jobs in Solution Manager rather than Enterprise Manager, refer to [Solution Manager job definition](sm-job-definition.md).
@@ -49,8 +49,8 @@ The VMWare sub-type provides the following fields:
 
 **User ID**: Defines the User ID assigned to the job for Windows security authentication.
 
-- Defines **Use Service Account** if the Windows Agent is running as a Domain User. For additional information about running the Windows Agent as a Domain User, refer to [Service Configuration Options](https://help.smatechnologies.com/opcon/agents/windows/administration/service-configuration) in the **Microsoft Windows LSAM** online help.
-- Defines a specific Domain User if the Windows Agent is running as the Local System. For additional information about running the Windows Agent as the Local System, refer to [Service Configuration Options](https://help.smatechnologies.com/opcon/agents/windows/administration/service-configuration) in the **Microsoft Windows LSAM** online help.
+- Defines **Use Service Account** if the Windows Agent is running as a Domain User. For additional information about running the Windows Agent as a Domain User, refer to [Service Configuration Options](https://help.smatechnologies.com/opcon/agents/windows/administration/service-configuration) in the **Windows Agent** online help.
+- Defines a specific Domain User if the Windows Agent is running as the Local System. For additional information about running the Windows Agent as the Local System, refer to [Service Configuration Options](https://help.smatechnologies.com/opcon/agents/windows/administration/service-configuration) in the **Windows Agent** online help.
 - If the User ID does not list the Domain User, register the Domain User in Enterprise Manager. For information about registering a Domain User, refer to [Managing Batch Users](https://help.smatechnologies.com/opcon/core/Files/UI/Enterprise-Manager/Managing-Batch-Users) in the **Enterprise Manager** online help.
 
 ## Job Details tab
@@ -137,6 +137,10 @@ You can produce a report that lists virtual machines that have been in a powered
 The actual powered-off date is not always available from the virtual machine information. The connector sets the initial powered-off date when it first detects the machine in a powered-off state. As a result, the first time the task runs, no virtual machines appear in the list — the powered-off date is set to the current date and the powered-off threshold has not yet been exceeded. If a virtual machine on the list is later powered up, it is removed from the list.
 :::
 
+:::note
+The powered-off dates are kept in `powered_down_list.xml` in the connector's `log` directory. Deleting that directory resets the tracking, and the next run behaves like a first run.
+:::
+
 The INFORMATION operation contains the following fields:
 
 - **Information Tasks**: Defines the type of INFORMATION task to perform:
@@ -199,6 +203,7 @@ The SNAPSHOT operation contains any of the following fields:
     - **CREATE** — the name of the snapshot to create for the virtual machine in **Virtual Machine Name**.
     - **REMOVE** — the name of an existing snapshot to remove for the virtual machine in **Virtual Machine Name**.
     - **REVERT** — the name of the snapshot to revert to for the virtual machine in **Virtual Machine Name**.
+- **Description**: Defines a description to store with the snapshot. Applies to the CREATE task and annotates the snapshot named in **Name**.
 - **Remove Child SnapShots**: For REMOVE only — also removes any child snapshots associated with the snapshot.
 
 ## Failure Criteria tab
@@ -214,6 +219,11 @@ A VMWare scheduled task can return any of the following codes:
 | `1` | INITIATION_ERROR | An exception occurred during job initiation. |
 | `6` | FINISHED_OK | The job completed processing. |
 | `7` | ERRORED | An exception occurred during job processing. |
+| `401` | — | `VMWARE_USER_PASSWORD` is present in `Connector.config` but empty. The job never reaches VMWare. |
+
+:::note
+`401` is returned before the operation starts, so it never means the VMWare task failed. Refer to [Configuration](configuration.md#encode-the-vmware-password).
+:::
 
 The **Failure Criteria** tab contains the following fields:
 
@@ -252,7 +262,7 @@ Yes, but only for POWEROFF, POWERON, SHUTDOWN, and SUSPEND. Use the **Virtual Ma
 
 **What return codes does a VMWare job emit?**
 
-A VMWare scheduled task can return `1` (INITIATION_ERROR), `6` (FINISHED_OK), or `7` (ERRORED). Use these values on the **Failure Criteria** tab.
+A VMWare scheduled task can return `1` (INITIATION_ERROR), `6` (FINISHED_OK), or `7` (ERRORED). Use these values on the **Failure Criteria** tab. It also returns `401` when `VMWARE_USER_PASSWORD` is present but empty, which happens before the operation starts.
 
 **My INFORMATION/GETPOWEREDOFFLIST report is empty on first run — why?**
 
@@ -263,7 +273,7 @@ The connector sets the initial powered-off date the first time it detects a mach
 | Term | Definition |
 |---|---|
 | VMWare Connector | An OpCon connector that submits job requests to VMWare web services from an OpCon schedule. |
-| Enterprise Manager | The legacy Windows desktop client for OpCon. Hosts the VMWare job sub-type. |
+| Enterprise Manager | The legacy Windows desktop interface for OpCon. Hosts the VMWare job sub-type. |
 | Windows Agent | The OpCon agent installed on a Windows machine. The connector requires a supported Windows Agent on the host machine. |
 | virtual machine | A VMWare instance managed through vCenter or ESXi. The connector performs operations against virtual machines. |
 | datacenter | The vSphere datacenter that contains the virtual machines. Required for the CLONE operation. |

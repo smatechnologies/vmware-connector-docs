@@ -29,15 +29,14 @@ This page walks you through installing the VMWare Connector and registering it w
 Before you begin, ensure that the target machine meets the following requirements:
 
 - A supported version of Windows with .NET Framework 4.5 installed.
-- Java version 8.
-- A supported version of the Windows Agent (MSLSAM) installed on the machine.
+- A supported version of the Windows Agent installed on the machine.
 
 :::note
 The VMWare Connector must have the address of the host supporting VMWare web services in the configuration file. You set this address after installation, in [Configuration](configuration.md).
 :::
 
-:::note
-The Oracle JRE prerequisite has been removed from the installation package. You must have a functional Java Runtime Environment (Java 8) installed before you install the connector.
+:::note Java is included
+You do not need to install Java. The connector package contains its own Java runtime, and both connector executables use it rather than any Java installed on the machine.
 :::
 
 ## New installation
@@ -57,17 +56,25 @@ To install the connector, complete the following steps:
 2. Go to [https://files.smatechnologies.com](https://files.smatechnologies.com) to download the files.
 3. Enter your username and password and select the **Login** button.
 4. Go to **Root Folder > Connectors and Add-ons > Connectors > VMWare**.
-5. Open the **SMA OpCon VMWare Connector Install.exe** file. The Select Language screen is displayed.
-6. Select the language for the installation screens and select the **OK** button. The Welcome screen is displayed.
-7. Select the **Next** button.
-8. Complete the remaining wizard screens.
-9. On the last wizard screen, select the **Done** button. The connector is installed.
+5. Download the connector zip file, `VMWareConnector-win.zip`.
+6. Extract the contents of the zip file into the directory where you want the connector to run.
 
-After the installation completes, the installation directory contains:
+   :::tip Example
+   `C:\Program Files\OpConxps\VMWare x64`
+   :::
 
-- The connector executable.
-- A single jar file containing the required libraries.
-- A `Connector.config` file (which you update in [Configuration](configuration.md)).
+There is no installation wizard. The connector runs from the directory you extract it into, so choose that directory before you extract rather than moving the files afterwards.
+
+After you extract the zip file, the directory contains:
+
+| Item | What it is |
+|---|---|
+| `vmware.exe` | The connector. This is the program the OpCon job runs. |
+| `Encrypt.exe` | The tool that encodes the VMWare password for `Connector.config`. Refer to [Configuration](configuration.md). |
+| `Connector.config` | The configuration file, which you update in [Configuration](configuration.md). |
+| `java` | The Java runtime the connector uses. Leave it in place. |
+| `emplugins` | The Enterprise Manager sub-type plug-in, used in the [Enterprise Manager path](#enterprise-manager-path). |
+| `log` | The log directory. Refer to [Configuration](configuration.md) for what the connector writes here. |
 
 ## Enterprise Manager path
 
@@ -91,10 +98,14 @@ To configure the VMWarePath global property in Enterprise Manager, complete the 
 3. Select the **Add** button on the Global Properties toolbar.
 4. In the **Name** field, enter `VMWarePath`.
 5. In the **Documentation** field, enter the documentation for the property.
-6. In the **Value** field, enter the path to `SMAVMWare.exe` on the Windows machine. Do not include the trailing backslash in the path.
+6. In the **Value** field, enter the directory that contains `vmware.exe` on the Windows machine. Enter the directory only, without a file name and without a trailing backslash.
 
    :::tip Example
    `C:\Program Files\OpConxps\VMWare x64`
+   :::
+
+   :::note
+   The sub-type builds the command line by appending `\vmware.exe` to this value, so the property holds the directory and the sub-type supplies the program name.
    :::
 
 7. Select the **Save** button on the Global Properties toolbar. The global property is saved.
@@ -174,7 +185,7 @@ To install the Solution Manager sub-type, complete the following steps:
 
 ### Create the script type and runner
 
-When you use the Solution Manager sub-type, you must register an `ACSVMWare` script type and a matching script runner. These let Solution Manager identify and execute the connector configuration script.
+When you use the Solution Manager sub-type, you must register an `ACSVMWare` script type and a matching script runner. These let Solution Manager identify and run the connector configuration script.
 
 #### Create the script type
 
@@ -252,7 +263,11 @@ To create the VMWare agent definition in Solution Manager, complete the followin
 
 ## Upgrade installation
 
-To upgrade the VMWare Connector, install the new package to the same directory as the previous installation. The installation package preserves your configuration files automatically. For installation steps, refer to [New installation](#new-installation).
+To upgrade the VMWare Connector, extract the new zip file into the same directory as the previous installation. For the download and extract steps, refer to [New installation](#new-installation).
+
+:::caution Back up `Connector.config` first
+The zip file contains a `Connector.config` file, so extracting it over an existing installation replaces the one you configured, including the encoded password. Copy your `Connector.config` somewhere else before you extract, then put it back afterwards.
+:::
 
 ## Silent mode
 
@@ -262,11 +277,11 @@ To install the VMWare Connector in silent mode, refer to the [Silent Mode](https
 
 **Do I need to install Java separately?**
 
-Yes. The Oracle JRE prerequisite has been removed from the installation package, so you must install a functional Java Runtime Environment (Java 8) before you install the connector.
+No. The connector package contains its own Java runtime in a `java` directory, and both executables use it. Installing or upgrading Java on the machine does not affect the connector.
 
 **What's in the installation directory after install?**
 
-The connector executable, a single jar file with the required libraries, and a `Connector.config` file.
+Two executables, `vmware.exe` and `Encrypt.exe`; a `Connector.config` file; and three directories — `java` for the bundled Java runtime, `emplugins` for the Enterprise Manager sub-type, and `log`.
 
 **Do I need to set up both the Enterprise Manager sub-type and the Solution Manager sub-type?**
 
@@ -274,7 +289,7 @@ No. The two sub-types are alternative paths. Set up the one that matches how you
 
 **Will an upgrade overwrite my configuration?**
 
-No. When you install the new package to the same directory as the previous installation, the installation package preserves your configuration files automatically.
+Yes, if you extract over the existing directory without preparing for it. The zip file contains a `Connector.config` file, so it replaces the one you configured. Copy your `Connector.config` somewhere else first, then put it back after extracting.
 
 **Why does my Windows path get rejected?**
 
@@ -285,10 +300,10 @@ Some systems do not allow long file names. Use the 8.3 file name format (for exa
 | Term | Definition |
 |---|---|
 | VMWare Connector | An OpCon connector that submits job requests to VMWare web services from an OpCon schedule. |
-| Windows Agent (MSLSAM) | The OpCon agent installed on a Windows machine. The connector requires a supported Windows Agent on the host machine. |
-| Connector.config | The VMWare Connector configuration file delivered with the connector installation. |
+| Windows Agent | The OpCon agent installed on a Windows machine. The connector requires a supported Windows Agent on the host machine. |
+| Connector.config | The VMWare Connector configuration file, extracted from the connector zip file. |
 | ACS | The framework included in OpCon 25.0.3 or greater that provides the sub-type mechanism supporting the VMWare Connector in Solution Manager. |
 | vCenter | The VMWare server providing the VMWare web services interface. The connector supports vCenter or ESXi 5.5. |
 | ESXi | The VMWare hypervisor providing the VMWare web services interface. The connector supports vCenter or ESXi 5.5. |
-| Enterprise Manager | The legacy Windows desktop client for OpCon. Hosts the VMWare job sub-type plug-in. |
+| Enterprise Manager | The legacy Windows desktop interface for OpCon. Hosts the VMWare job sub-type plug-in. |
 | Solution Manager | The browser-based interface for OpCon. Hosts the VMWare job type through the ACS framework. |

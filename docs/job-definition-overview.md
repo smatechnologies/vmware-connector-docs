@@ -31,7 +31,7 @@ Both paths expose the same set of VMWare operations. The job definition determin
 
 | Path | When to use it | Page |
 |---|---|---|
-| Enterprise Manager sub-type | You define jobs in the Enterprise Manager desktop client. | [Enterprise Manager job definition](em-job-definition.md) |
+| Enterprise Manager sub-type | You define jobs in the Enterprise Manager desktop interface. | [Enterprise Manager job definition](em-job-definition.md) |
 | Solution Manager job type | You run OpCon 25.0.3 or greater and define jobs in Solution Manager. | [Solution Manager job definition](sm-job-definition.md) |
 
 ## Supported operations
