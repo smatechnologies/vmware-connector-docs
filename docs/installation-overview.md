@@ -31,7 +31,7 @@ The VMWare Connector exposes its job definition through one of two sub-type path
 
 | Path | When to use it | Where jobs are defined |
 |---|---|---|
-| **Enterprise Manager** | Your team defines jobs in the Enterprise Manager desktop client. | Enterprise Manager, using the **VMWare** Windows job sub-type. |
+| **Enterprise Manager** | Your team defines jobs in the Enterprise Manager desktop interface. | Enterprise Manager, using the **VMWare** Windows job sub-type. |
 | **Solution Manager** | You run OpCon 25.0.3 or greater and your team defines jobs in Solution Manager. | Solution Manager, using the **VMWare** job type through the ACS framework. The `Connector.config` file is centralized in OpCon. |
 
 For the step-by-step procedures, refer to [Installation](installation.md).
@@ -44,6 +44,7 @@ The connector supports the following operations on VMWare instances:
 | ---- | ----------- |
 | BackUp | Back up VMWare machine instances. |
 | Clone | Create a virtual machine. |
+| Delete | Delete a virtual machine from the VMWare environment. Requires configuration and VMWare privileges. |
 | Information | Retrieve information from the VMWare environment. |
 | PowerOps | Power on or power off VMWare instances; reboot, shut down, restart, or suspend guest operating systems. |
 | Reconfigure | Change VMWare configurations by changing the number of CPUs or the memory size. |

@@ -12,6 +12,12 @@ tags:
 
 ## 21
 
+### 21.0.1
+
+### What's new
+
+:white_check_mark: The connector executable was renamed to `vmware.exe`. The Enterprise Manager sub-type builds its command line from this name, so the **VMWarePath** global property must contain the directory that holds it. Refer to [Configure the VMWarePath global property](installation.md#configure-the-vmwarepath-global-property).
+
 ### 21.0
 
 ### What's new

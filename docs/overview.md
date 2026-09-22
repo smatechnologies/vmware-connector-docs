@@ -12,7 +12,7 @@ tags:
 
 ## What is it?
 
-The VMWare Connector, version 21.0, provides connectivity that allows an OpCon job to submit a request to VMWare. It lets OpCon automate VMWare operations such as backup, clone, power operations, reconfiguration, and snapshots as part of a schedule.
+The VMWare Connector, version 21.0.1, provides connectivity that allows an OpCon job to submit a request to VMWare. It lets OpCon automate VMWare operations such as backup, clone, power operations, reconfiguration, and snapshots as part of a schedule.
 
 You define VMWare jobs in either of two ways:
 
@@ -56,5 +56,5 @@ Use the 8.3 file name format. The seventh character of the long name becomes a t
 | Term | Definition |
 |---|---|
 | VMWare Connector | An OpCon connector that submits job requests to VMWare web services from an OpCon schedule. |
-| Enterprise Manager | The legacy Windows-based desktop client for OpCon. Hosts the VMWare job sub-type plug-in. |
+| Enterprise Manager | The legacy Windows-based desktop interface for OpCon. Hosts the VMWare job sub-type plug-in. |
 | Solution Manager | The browser-based interface for OpCon. Hosts the VMWare job type through the ACS framework. |
